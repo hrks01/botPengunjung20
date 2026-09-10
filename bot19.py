@@ -21,6 +21,7 @@ def getHP():
 
 async def main(nama, email, c):
     async with async_playwright() as p:
+        kerja = ["Masyarakat", "Petani", "Pedagang", "Kuli", "Nelayan","Supir","Mekanik", "Wirausaha"]
         noHP = getHP()
         browser = await p.chromium.launch(headless=True ,args=["--disable-dev-shm-usage", "--no-sandbox"])
         page = await browser.new_page(viewport={'width': 720, 'height': 1280})
@@ -33,8 +34,8 @@ async def main(nama, email, c):
             # 3. Isi data akun
             await page.fill("#profile_name", nama)
             await page.fill("#profile_email", email)
-            await page.fill("#profile_company_name", "Kementerian Imigrasi dan Pemasyarakatan")
-            await page.fill("#profile_occupation", "Masyarakat")
+            await page.fill("#profile_company_name", "-")
+            await page.fill("#profile_occupation", kerja[r.randint(0,8)])
             await page.fill("#profile_phone_number", noHP)
             await page.fill("#profile_password", "Admin123")
             await page.fill("#profile_password_confirmation", "Admin123")
@@ -105,14 +106,14 @@ async def main(nama, email, c):
 
 if __name__ == "__main__":
     jumlah = 300
-    mulaiDari = 300
+    mulaiDari = 600
     print("Mulai...")
     for i in range (mulaiDari, mulaiDari+jumlah):
         contact = contacts[i]
         nama = contact["nama"]
         #nama = nama[3:-3]
         email = contact["email"]
-        email = sisip(email, "079")
+        email = sisip(email, "077")
         c = i-mulaiDari
         #print(f"Proses: {nama} ({email})")
         asyncio.run(main(nama, email, c))
